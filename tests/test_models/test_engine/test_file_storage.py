@@ -4,6 +4,8 @@ import unittest
 from models.base_model import BaseModel
 from models import storage
 import os
+from models.engine.file_storage import FileStorage
+import json
 
 
 class test_fileStorage(unittest.TestCase):
@@ -16,6 +18,8 @@ class test_fileStorage(unittest.TestCase):
             del_list.append(key)
         for key in del_list:
             del storage._FileStorage__objects[key]
+        self.storage = FileStorage()
+        self.file_path = "file.json"
 
     def tearDown(self):
         """ Remove storage file at end of tests """
@@ -107,3 +111,32 @@ class test_fileStorage(unittest.TestCase):
         from models.engine.file_storage import FileStorage
         print(type(storage))
         self.assertEqual(type(storage), FileStorage)
+
+    def test_delete(self):
+        """Tests the method delete."""
+        from models.engine.file_storage import FileStorage
+        b = BaseModel()
+        b.id = "b_id"
+        b.name = "test_name"
+        self.storage.new(b)
+        self.storage.save()
+        with open(self.file_path, "r") as file:
+            data = json.load(file)
+        self.assertIn("BaseModel.b_id", data)
+        self.assertEqual(data["BaseModel.b_id"]["name"], "test_name")
+        self.storage.delete(b)
+        self.storage.save()
+        with open(self.file_path, "r") as file:
+            data = json.load(file)
+        self.assertNotIn("BaseModel.b_id", data)
+
+    def test_all_with_args(self):
+        """Tests the all method with arguments"""
+        new_obj = BaseModel()
+        new_obj.id = "test_id"
+        new_obj.name = "test_name"
+        self.storage.new(new_obj)
+        all_objects = self.storage.all(BaseModel)
+        self.assertIsInstance(all_objects, dict)
+        self.assertIn("BaseModel.test_id", all_objects)
+        self.assertEqual(len(self.storage.all(int)), 0)
