@@ -6,6 +6,7 @@ import datetime
 from uuid import UUID
 import json
 import os
+from models.engine.file_storage import FileStorage
 
 
 class test_basemodel(unittest.TestCase):
@@ -16,6 +17,8 @@ class test_basemodel(unittest.TestCase):
         super().__init__(*args, **kwargs)
         self.name = 'BaseModel'
         self.value = BaseModel
+        self.storage = FileStorage()
+        self.file_path = "file.json"
 
     def setUp(self):
         """ """
@@ -97,3 +100,21 @@ class test_basemodel(unittest.TestCase):
         n = new.to_dict()
         new = BaseModel(**n)
         self.assertFalse(new.created_at == new.updated_at)
+
+    def test_delete_method(self):
+        """tests the delete method."""
+        a = BaseModel()
+        a.id = "test_id"
+        a.name = "test_name"
+        self.storage.new(a)
+        self.storage.save()
+        with open(self.file_path, "r") as file:
+            data = json.load(file)
+
+        self.assertIn("BaseModel.test_id", data)
+        self.assertEqual(data["BaseModel.test_id"]["name"], "test_name")
+        a.delete()
+        self.storage.save()
+        with open(self.file_path, "r") as file:
+            data = json.load(file)
+        self.assertNotIn("BaseModel.test_id", data)
