@@ -79,7 +79,13 @@ class test_basemodel(unittest.TestCase):
 
     def test_kwargs_one(self):
         """ """
-        n = {'Name': 'test'}
+        n = {'name': 'California'}
+        new = self.value(**n)
+        self.assertTrue(hasattr(new, 'name'))
+        self.assertTrue(hasattr(new, '__class__'))
+        self.assertTrue(hasattr(new, 'created_at'))
+        self.assertTrue(hasattr(new, 'updated_at'))
+        n = {'invalid_key': 'California'}
         with self.assertRaises(KeyError):
             new = self.value(**n)
 
