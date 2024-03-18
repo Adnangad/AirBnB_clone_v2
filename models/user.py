@@ -5,6 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String
 
+
 class User(BaseModel, Base):
     """This class defines a user by various attributes"""
     __tablename__ = 'users'
@@ -12,3 +13,5 @@ class User(BaseModel, Base):
     password = Column(String(128), nullable=False)
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
+    places = relationship("Place", cascade='all, delete, delete-orphan',
+                          backref="user")
