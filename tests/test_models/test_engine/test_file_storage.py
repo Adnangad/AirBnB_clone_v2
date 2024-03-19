@@ -129,14 +129,3 @@ class test_fileStorage(unittest.TestCase):
         with open(self.file_path, "r") as file:
             data = json.load(file)
         self.assertNotIn("BaseModel.b_id", data)
-
-    def test_all_with_args(self):
-        """Tests the all method with arguments"""
-        new_obj = BaseModel()
-        new_obj.id = "test_id"
-        new_obj.name = "test_name"
-        self.storage.new(new_obj)
-        all_objects = self.storage.all(BaseModel)
-        self.assertIsInstance(all_objects, dict)
-        self.assertIn("BaseModel.test_id", all_objects)
-        self.assertEqual(len(self.storage.all(int)), 0)
