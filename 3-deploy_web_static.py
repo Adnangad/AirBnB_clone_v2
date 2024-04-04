@@ -20,24 +20,23 @@ def do_pack():
         return None
 
 def do_deploy(archive_path):
-    """ deploys the archives into web servers"""
+    """ distributes archives to web servers
+    """
     if exists(archive_path) is False:
         return False
-    arch = archive_path.split('/')[-1]
-    arch_no_extension = '/data/web_static/releases/' + "{}".format(arch.split('.')[0])
-    pat = "/tmp/" + arch
-    remote_path = "/tmp/"
+    filen = archive_path.split('/')[-1]
+    no_ext = '/data/web_static/releases/' + "{}".format(filen.split('.')[0])
+    temp = "/tmp/" + filen
 
     try:
-        put(archive_path, remote_path)
-        run("mkdir -p {}/".format(arch_no_extension))
-        run("tar -xzf {} -C {}/".format(pat, arch_no_extension))
-        run("rm {}".format(pat))
-        run("mv {}/web_static/* {}/".format(arch_no_extension, arch_no_extension))
-        run("rm -rf {}/web_static".format(arch_no_extension))
-        lnk = "/data/web_static/current"
-        run(f"rm -rf {lnk}")
-        run("ln -s {}/ {}".format(arch_no_extension, lnk))
+        put(archive_path, "/tmp/")
+        run("mkdir -p {}/".format(no_ext))
+        run("tar -xzf {} -C {}/".format(temp, no_ext))
+        run("rm {}".format(temp))
+        run("mv {}/web_static/* {}/".format(no_ext, no_ext))
+        run("rm -rf {}/web_static".format(no_ext))
+        run("rm -rf /data/web_static/current")
+        run("ln -s {}/ /data/web_static/current".format(no_ext))
         return True
     except:
         return False
