@@ -1,12 +1,14 @@
 #!/usr/bin/python3
-""" compresses a folder to an archive """
+""" creates and distributes an archive to your web servers, using the function deploy """
 
 
 from fabric.api import *
 from datetime import datetime
 from os.path import exists
 
+
 env.hosts = ['54.87.172.130', '52.204.105.20']
+
 
 def do_pack():
     """ the function to generate the archive """
@@ -42,8 +44,7 @@ def do_deploy(archive_path):
         return False
 
 def deploy():
-    """ creates and distributes an archive to your web servers
-    """
+    """ creates and distributes an archive to your web servers """
     archive_path = do_pack()
     if exists(archive_path) is False:
         return False
