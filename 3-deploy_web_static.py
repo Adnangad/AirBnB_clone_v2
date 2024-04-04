@@ -42,9 +42,10 @@ def do_deploy(archive_path):
         return False
 
 def deploy():
-    """ creates and distributes an archive to your web servers. """
-    archv = do_pack()
-    if exists(archv) is False:
+    """ creates and distributes an archive to your web servers
+    """
+    archive_path = do_pack()
+    if exists(archive_path) is False:
         return False
-    final = do_deploy(archv)
-    return final
+    rez = do_deploy(archive_path)
+    return rez
