@@ -11,7 +11,7 @@ env.hosts = ['54.87.172.130', '52.204.105.20']
 
 
 def do_deploy(archive_path):
-    """ """
+    """ deploys the archives into web servers"""
     if exists(archive_path) is False:
         return False
     arch = archive_path.split('/')[-1]
