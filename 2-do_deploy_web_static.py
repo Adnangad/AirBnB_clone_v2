@@ -28,7 +28,7 @@ def do_deploy(archive_path):
         run("rm -rf {}/web_static".format(arch_no_extension))
         lnk = "/data/web_static/current"
         run(f"rm -rf {lnk}")
-        run("ln -s {}/ {}".format(no_tgz, lnk))
+        run("ln -s {}/ {}".format(arch_no_extension, lnk))
         return True
     except:
         return False
