@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""deploys the archive into a server """
+""" deploys the archive into a server """
 
 
 from fabric.api import *
