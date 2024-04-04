@@ -7,6 +7,8 @@ from datetime import datetime
 
 
 def do_pack():
+    """Compresses a folder to a .tgz archive"""
+
     fold = 'web_static'
     arch = f'web_static_{datetime.now().strftime("%Y%m%d%H%M%S")}.tgz'
     local('mkdir -p versions')
