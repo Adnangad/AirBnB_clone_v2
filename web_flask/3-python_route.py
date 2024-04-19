@@ -24,5 +24,11 @@ def disp_args(text):
     return "C " + text.replace("_", " ")
 
 
+@app.route("/python/<text>", strict_slashes=False)
+def disp_py(text):
+    """This returns a specific message."""
+    return "Python " + text.replace("_", " ")
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
