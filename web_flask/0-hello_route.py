@@ -1,6 +1,6 @@
 #!/usr/bin/python3
+"""This module displays a message on a web app."""
 from flask import Flask
-"""This module displays a message on the webpage"""
 
 
 app = Flask(__name__)
@@ -12,4 +12,5 @@ def disp():
     return "Hello HBNB!"
 
 
-run(app, host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
