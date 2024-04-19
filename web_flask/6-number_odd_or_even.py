@@ -1,0 +1,76 @@
+#!/usr/bin/python3
+"""starts a web app application and displays message on a web app."""
+from flask import Flask, abort, render_template
+
+
+app = Flask(__name__)
+
+
+@app.route("/", strict_slashes=False)
+def disp():
+    """This returns a specific message."""
+    return "Hello HBNB!"
+
+
+@app.route("/hbnb", strict_slashes=False)
+def disp_path():
+    """This returns a specific message."""
+    return "HBNB"
+
+
+@app.route("/c/<text>", strict_slashes=False)
+def disp_args(text):
+    """This returns a specific message."""
+    return "C " + text.replace("_", " ")
+
+
+@app.route("/python/<text>", strict_slashes=False)
+def disp_py(text):
+    """This returns a specific message."""
+    if text is None:
+        return "Python is cool"
+    return "Python " + text.replace("_", " ")
+
+
+@app.route("/python/", strict_slashes=False)
+def disp_py_withouttext():
+    """This returns a specific message."""
+    return "Python is cool"
+
+
+@app.route("/number/<n>", strict_slashes=False)
+def disp_num(n):
+    """This returns a specific message."""
+    try:
+        n = int(n)
+        return f"{n} is a number"
+    except:
+        return abort(404)
+
+
+@app.route("/number_template/<n>", strict_slashes=False)
+def render_temp(n):
+    """This returns a specific message."""
+    try:
+        n = int(n)
+        return render_template("5-number.html", num=n)
+    except:
+        return abort(404)
+
+
+@app.route("/number_odd_or_even/<n>", strict_slashes=False)
+def temp_od_or_even(n):
+    """This returns a specific message."""
+    try:
+        n = int(n)
+        if n % 2 == 0:
+            rez = f"{n} is even"
+        else:
+            rez = f"{n} is odd"
+        return render_template("6-number_odd_or_even.html", rez=rez)
+    except:
+        return abort(404)
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
