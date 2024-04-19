@@ -27,6 +27,8 @@ def disp_args(text):
 @app.route("/python/<text>", strict_slashes=False)
 def disp_py(text):
     """This returns a specific message."""
+    if text is None:
+        return "Python is cool"
     return "Python " + text.replace("_", " ")
 
 
