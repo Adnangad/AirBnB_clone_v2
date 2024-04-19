@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+"""Contains code"""
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from models.base_model import Base
