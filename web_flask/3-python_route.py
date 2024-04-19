@@ -32,5 +32,11 @@ def disp_py(text):
     return "Python " + text.replace("_", " ")
 
 
+@app.route("/python/", strict_slashes=False)
+def disp_py_withouttext():
+    """This returns a specific message."""
+    return "Python is cool"
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
