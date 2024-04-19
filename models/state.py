@@ -1,28 +1,32 @@
 #!/usr/bin/python3
-from sqlalchemy.ext.declarative import declarative_base
-from models.base_model import BaseModel, Base
-from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Integer, String
-import models
-from models.city import City
+""" State Module for HBNB project """
 import os
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
+
+from models.base_model import BaseModel, Base
+from models.city import City
+
 
 class State(BaseModel, Base):
-    """This is a class state"""
-    __tablename__ = "states"
-    name = Column(String(128), nullable=False)
-
+    """ State class """
+    __tablename__ = 'states'
+    name = Column(
+        String(128), nullable=False
+    ) if os.getenv('HBNB_TYPE_STORAGE') == 'db' else ''
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-        cities = relationship("City",
-                cascade='all, delete, delete-orphan',
-                          backref="state")
+        cities = relationship(
+            'City',
+            cascade='all, delete, delete-orphan',
+            backref='state'
+        )
     else:
         @property
         def cities(self):
-            ls = []
-            temp = models.db_storage.all(City)
-            for ct in temp.values():
-                if ct.state_id == self.id:
-                    ls.append(ct)
-            return ls
-
+            """Returns the cities in this State"""
+            from models import storage
+            cities_in_state = []
+            for value in storage.all(City).values():
+                if value.state_id == self.id:
+                    cities_in_state.append(value)
+            return cities_in_state
